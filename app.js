@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { getPosts } from './src/api';
 
-// Defina um tipo para os dados dos posts
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
-
-// Função para consumir dados de uma API
-const fetchData = async () => {
-  const response = await axios.get<Post[]>('https://jsonplaceholder.typicode.com/posts');
-  return response.data;
-};
-
-export default function HomeScreen() {
-  const [posts, setPosts] = useState<Post[]>([]);
+export default function App() {
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const getPosts = async () => {
-      const data = await fetchData();
+    const fetchData = async () => {
+      const data = await getPosts();
       setPosts(data);
     };
 
-    getPosts();
+    fetchData();
   }, []);
 
   return (
@@ -47,9 +34,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     paddingTop: 50,
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
